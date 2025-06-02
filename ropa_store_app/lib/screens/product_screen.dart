@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../models/producto.dart';
+import '../services/config_service.dart';
 
 class ProductScreen extends StatefulWidget {
   const ProductScreen({super.key});
@@ -27,11 +28,16 @@ class _ProductScreenState extends State<ProductScreen> {
       final prefs = await SharedPreferences.getInstance();
       final token = prefs.getString('token');
 
-      final url = Uri.parse('http://localhost:5295/api/productos');
-      final response = await http.get(
-        url,
-        headers: {'Authorization': 'Bearer $token'},
-      );
+      final url = Uri.parse('${ConfigService.baseUrl}/api/productos');
+
+final response = await http.get(
+  url,
+  headers: {
+    'Content-Type': 'application/json',
+    'Authorization': 'Bearer $token',
+  },
+);
+
 
       if (response.statusCode == 200) {
         final List<dynamic> data = jsonDecode(response.body);

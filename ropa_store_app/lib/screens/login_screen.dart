@@ -3,6 +3,7 @@ import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'product_screen.dart';
+import '../services/config_service.dart';
 
 
 class LoginScreen extends StatefulWidget {
@@ -24,7 +25,7 @@ class _LoginScreenState extends State<LoginScreen> {
       _error = null;
     });
 
-    final url = Uri.parse('http://localhost:5295/api/auth/login');
+    final url = Uri.parse('${ConfigService.baseUrl}/api/auth/login');
     final response = await http.post(
       url,
       headers: {'Content-Type': 'application/json'},
